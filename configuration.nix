@@ -17,13 +17,14 @@
       AppleInterfaceStyle = "Dark";
       KeyRepeat = 2;          # fast key repeat
       InitialKeyRepeat = 15;  # short delay before repeat
-      _HIHideMenuBar = true;  # auto-hide the menu bar
+      _HIHideMenuBar = false;  # auto-hide the menu bar
       AppleShowAllExtensions = true;
     };
     dock.autohide = true;
     finder.FXPreferredViewStyle = "Nlsv";  # list view by default
     finder.CreateDesktop = false;          # clean desktop
     trackpad.Clicking = true;              # tap to click
+    trackpad.TrackpadThreeFingerDrag = true;
   };
   nix-homebrew = {
     enable = true;
@@ -36,6 +37,7 @@
     onActivation.extraFlags = [ "--force" ];
     brews = [
       "herdr"
+      "nvm"
     ];
     casks = [
       "wezterm"

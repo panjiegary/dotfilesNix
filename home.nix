@@ -1,4 +1,4 @@
-{ config, pkgs, user, ... }:
+{ config, lib, pkgs, user, ... }:
 
 let
   dotfiles = "${config.home.homeDirectory}/.dotfiles";
@@ -21,6 +21,13 @@ in
   ];
   fonts.fontconfig.enable = true;
   home.sessionVariables.EDITOR = "nvim";
+  home.sessionVariables.NVM_DIR = "${config.home.homeDirectory}/.nvm";
+  home.sessionVariables.EZA_CONFIG_DIR = "${config.home.homeDirectory}/.config/eza";
+
+  # Homebrew's nvm formula doesn't create this on its own.
+  home.activation.nvmDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "${config.home.homeDirectory}/.nvm"
+  '';
 
   programs.zsh = {
     enable = true;
@@ -28,6 +35,8 @@ in
     syntaxHighlighting.enable = true;  # commands turn green when valid
     initContent = ''
       bindkey '^f' autosuggest-accept
+      [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+      [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
     '';
     shellAliases = {
       ".." = "cd ..";
@@ -38,6 +47,19 @@ in
       cc = "claude --dangerously-skip-permissions";
       co = "codex --full-auto";
     };
+  };
+
+  programs.eza = {
+    enable = true;
+    enableZshIntegration = true;
+    icons = "auto";
+    git = true;
+  };
+
+  programs.yazi = {
+    enable = true;
+    enableZshIntegration = true;
+    shellWrapperName = "y";
   };
 
   programs.starship = {
@@ -60,6 +82,8 @@ in
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/nvim";
   home.file.".config/herdr".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/herdr";
+  home.file.".config/eza".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/eza";
   home.file.".claude/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.claude/settings.json";
 
