@@ -40,6 +40,7 @@ in
     '';
     shellAliases = {
       ".." = "cd ..";
+      vi = "nvim";
       add = "git add .";
       push = "git push";
       pull = "git pull";

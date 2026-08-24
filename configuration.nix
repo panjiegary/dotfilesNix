@@ -42,6 +42,8 @@
     casks = [
       "wezterm"
       "claude-code"
+      "visual-studio-code"
+      "obsidian"
     ];
   };
 }
