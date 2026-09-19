@@ -44,6 +44,8 @@
       "claude-code"
       "visual-studio-code"
       "obsidian"
+      "telegram"
+      "wechat"
     ];
   };
 }
